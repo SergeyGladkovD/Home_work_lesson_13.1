@@ -11,6 +11,8 @@ def test_category_init(random_category):
 	assert random_category.title == 'Фрукты'
 	assert random_category.description == 'Цитрусовые'
 	assert random_category.products == ['Апельсины', 'Лимоны']
+	assert Category.count_of_categories == 1
+	assert Category.count_of_unique_products == 2
 
 
 @pytest.fixture()
@@ -23,15 +25,3 @@ def test_product_init(random_product):
 	assert random_product.description == 'Мадагаскарские'
 	assert random_product.price == 350.50
 	assert random_product.quantity_in_stock == 100
-
-
-def test_count_category():
-	assert Category.count_of_categories == 0
-	cat1 = Category('Фрукты', 'Цитрусовые', ['Апельсины', 'Лимоны'])
-	assert Category.count_of_categories == 1
-
-
-def test_count_products():
-	assert Category.count_of_unique_products == 0
-	cat1 = Category('Фрукты', 'Цитрусовые', ['Апельсины', 'Лимоны'])
-	assert Category.count_of_unique_products == 2
