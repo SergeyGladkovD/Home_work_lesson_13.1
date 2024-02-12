@@ -7,6 +7,7 @@ class Category:
 	count_of_categories = 0
 	count_of_unique_products = 0
 	list_cup = []
+	list_all_products = []
 
 	def __init__(self, title, description, products):
 		"""Метод для инициализации экземпляра класса."""
@@ -22,19 +23,17 @@ class Category:
 	@property
 	def all_products(self):
 		"""Выводит список товаров в формате."""
-		list_all_products = []
 		for product in self.__products:
-			list_all_products.append(f'{product.title}, {product.price} руб. Остаток: {product.quantity_in_stock} шт.')
-		return list_all_products
+			return f'{product.title}, {product.price} руб. Остаток: {product.quantity_in_stock} шт.'
 
 	@property
 	def products(self):
 		"""Возвращает приватное значение атрибута"""
 		return self.__products
 
-	def add_products(self, products):
+	def add_products(self, new_product):
 		"""Добавляет новый продукт в список продуктов."""
-		self.__products.append(products)
+		self.__products.append(new_product)
 
 
 class Product:
@@ -55,11 +54,14 @@ class Product:
 	def new_product(cls, list_all_products,  title, description, price, quantity_in_stock):
 		"""Создает товар и возвращает объект, который можно добавлять в список товаров."""
 		new_product = cls(title, description, price, quantity_in_stock)
-		for product in list_all_products:
-			if product.title == new_product.title:
-				product.quantity_in_stock += new_product.quantity_in_stock
-				if new_product.price > product.price:
-					product.price = new_product.price
+		if new_product in list_all_products:
+			for product in list_all_products:
+				if product.title == new_product.title:
+					product.quantity_in_stock += new_product.quantity_in_stock
+					if new_product.price > product.price:
+						product.price = new_product.price
+		else:
+			list_all_products.append(new_product)
 		return new_product
 
 	@property
