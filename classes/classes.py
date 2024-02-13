@@ -22,9 +22,11 @@ class Category:
 
 	@property
 	def all_products(self):
+		list_all_products = []
 		"""Выводит список товаров в формате."""
 		for product in self.__products:
-			return f'{product.title}, {product.price} руб. Остаток: {product.quantity_in_stock} шт.'
+			list_all_products.append(f'{product.title}, {product.price} руб. Остаток: {product.quantity_in_stock} шт.')
+		return list_all_products
 
 	@property
 	def products(self):
