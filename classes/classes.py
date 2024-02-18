@@ -95,7 +95,7 @@ class Product:
 		return f'{self.title}, {self.price} руб. Остаток: {self.quantity_in_stock} шт.'
 
 	def __len__(self):
-		pass
+		return self.quantity_in_stock
 
 	def __add__(self, other):
 		""" Возвращает общую число сложения двух продуктов. """
