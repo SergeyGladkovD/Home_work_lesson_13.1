@@ -110,6 +110,7 @@ class ProductIterator:
 
 	def __iter__(self):
 		self.prodict_iterator = -1
+		return self
 
 	def __next__(self):
 		if self.prodict_iterator + 1 < self.stop:
