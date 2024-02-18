@@ -99,7 +99,7 @@ class Product:
 
 	def __add__(self, other):
 		""" Возвращает общую число сложения двух продуктов. """
-		return f'{self.price * self.quantity_in_stock + other.price * other.quantity_in_stock}'
+		return self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
 
 
 class ProductIterator:
