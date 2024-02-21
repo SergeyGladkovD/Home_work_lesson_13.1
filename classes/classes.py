@@ -8,8 +8,7 @@ class Category:
 	list_cup = []
 	list_all_products = []
 
-	def __init__(self, title: str, description: str, products: list):
-		""" Метод для инициализации экземпляра класса. """
+	def __init__(self, title, description, products):
 		self.title = title
 		self.description = description
 		self.__products = products
@@ -21,8 +20,8 @@ class Category:
 
 	@property
 	def all_products(self):
-		list_all_products = []
 		""" Выводит список товаров в формате. """
+		list_all_products = []
 		for product in self.__products:
 			list_all_products.append(f'{product.title}, {product.price} руб. Остаток: {product.quantity_in_stock} шт.')
 		return list_all_products
@@ -34,12 +33,16 @@ class Category:
 
 	def add_products(self, new_product):
 		""" Добавляет новый продукт в список продуктов. """
-		self.__products.append(new_product)
+		if isinstance(new_product, Product):
+			self.__products.append(new_product)
+		raise TypeError
 
 	def __str__(self):
+		""" Вывод информации. """
 		return f'{self.title}, количество продуктов: {len(self.products)} шт.'
 
 	def __len__(self):
+		""" Возвращает длину списка продуктов. """
 		return len(self.products)
 
 
@@ -50,8 +53,7 @@ class Product:
 	price: float
 	quantity_in_stock: int
 
-	def __init__(self, title: str, description: str, price: float, quantity_in_stock: int):
-		""" Метод для инициализации экземпляра класса. """
+	def __init__(self, title, description, price, quantity_in_stock):
 		self.title = title
 		self.description = description
 		self.__price = price
@@ -95,17 +97,20 @@ class Product:
 		return f'{self.title}, {self.price} руб. Остаток: {self.quantity_in_stock} шт.'
 
 	def __len__(self):
+		""" Возвращает количество продуктов. """
 		return self.quantity_in_stock
 
 	def __add__(self, other):
 		""" Возвращает общую число сложения двух продуктов. """
-		return self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
+		type_class = type(self)
+		if isinstance(other, type_class):
+			return self.price * self.quantity_in_stock + other.price * other.quantity_in_stock
+		raise TypeError
 
 
 class ProductIterator:
 	""" Класс для перебора товаров по категории. """
 	def __init__(self, stop):
-		""" Метод для инициализации экземпляра класса. """
 		self.stop = stop
 
 	def __iter__(self):
@@ -118,3 +123,24 @@ class ProductIterator:
 			return self.prodict_iterator
 		else:
 			raise StopIteration
+
+
+class Smartphone(Product):
+	""" Подкласс смартфон. """
+
+	def __init__(self, title, description, price, quantity_in_stock, efficiency, model, hdd, color):
+		super().__init__(title, description, price, quantity_in_stock)
+		self.efficiency = efficiency
+		self.model = model
+		self.hdd = hdd
+		self.color = color
+
+
+class LawnGrass(Product):
+	""" Подкласс трава газонная. """
+
+	def __init__(self, title, description, price, quantity_in_stock, country_of_origin, germination_period, color):
+		super().__init__(title, description, price, quantity_in_stock)
+		self.country_of_origin = country_of_origin
+		self.germination_period = germination_period
+		self.color = color
