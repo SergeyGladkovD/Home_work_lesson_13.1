@@ -1,14 +1,39 @@
-class Category:
+from abc import ABC, abstractmethod
+
+
+class MixinRepr:
+
+	def __init__(self):
+		self.__repr__()
+
+	def __repr__(self):
+		return f'Добавлен товар {self.__dict__}'
+
+
+class OrderList(ABC):
+
+	def __init__(self):
+		pass
+
+	def __len__(self):
+		pass
+
+	def __repr__(self):
+		pass
+
+	def __str__(self):
+		pass
+
+
+class Category(OrderList, MixinRepr):
 	""" Класс категория. """
-	title: str
-	description: str
-	products: list
 	count_of_categories = 0
 	count_of_unique_products = 0
 	list_cup = []
 	list_all_products = []
 
-	def __init__(self, title, description, products):
+	def __init__(self, title: str, description: str, products: list):
+		super().__init__()
 		self.title = title
 		self.description = description
 		self.__products = products
@@ -46,21 +71,36 @@ class Category:
 		return len(self.products)
 
 
-class Product:
-	""" Класс продукт. """
-	title: str
-	description: str
-	price: float
-	quantity_in_stock: int
+class Order(OrderList, MixinRepr):
 
-	def __init__(self, title, description, price, quantity_in_stock):
+	def __init__(self):
+		super().__init__()
+
+	def __len__(self):
+		pass
+
+	def __str__(self):
+		pass
+
+
+class AllProducts(ABC):
+	@abstractmethod
+	def __init__(self):
+		pass
+
+
+class Product(AllProducts, MixinRepr):
+	""" Класс продукт. """
+
+	def __init__(self, title: str, description: str, price: float, quantity_in_stock: int):
+		super().__init__()
 		self.title = title
 		self.description = description
 		self.__price = price
 		self.quantity_in_stock = quantity_in_stock
 
 	@classmethod
-	def new_product(cls, list_all_products,  title, description, price, quantity_in_stock):
+	def new_product(cls, list_all_products, title, description, price, quantity_in_stock):
 		""" Создает товар и возвращает объект, который можно добавлять в список товаров. """
 		new_product = cls(title, description, price, quantity_in_stock)
 		if new_product in list_all_products:
@@ -108,8 +148,30 @@ class Product:
 		raise TypeError
 
 
+class Smartphone(Product, MixinRepr):
+	""" Подкласс смартфон. """
+
+	def __init__(self, title, description, price, quantity_in_stock, efficiency, model, hdd, color):
+		super().__init__(title, description, price, quantity_in_stock)
+		self.efficiency = efficiency
+		self.model = model
+		self.hdd = hdd
+		self.color = color
+
+
+class LawnGrass(Product, MixinRepr):
+	""" Подкласс трава газонная. """
+
+	def __init__(self, title, description, price, quantity_in_stock, country_of_origin, germination_period, color):
+		super().__init__(title, description, price, quantity_in_stock)
+		self.country_of_origin = country_of_origin
+		self.germination_period = germination_period
+		self.color = color
+
+
 class ProductIterator:
 	""" Класс для перебора товаров по категории. """
+
 	def __init__(self, stop):
 		self.stop = stop
 
@@ -121,26 +183,4 @@ class ProductIterator:
 		if self.prodict_iterator + 1 < self.stop:
 			self.prodict_iterator += 1
 			return self.prodict_iterator
-		else:
-			raise StopIteration
-
-
-class Smartphone(Product):
-	""" Подкласс смартфон. """
-
-	def __init__(self, title, description, price, quantity_in_stock, efficiency, model, hdd, color):
-		super().__init__(title, description, price, quantity_in_stock)
-		self.efficiency = efficiency
-		self.model = model
-		self.hdd = hdd
-		self.color = color
-
-
-class LawnGrass(Product):
-	""" Подкласс трава газонная. """
-
-	def __init__(self, title, description, price, quantity_in_stock, country_of_origin, germination_period, color):
-		super().__init__(title, description, price, quantity_in_stock)
-		self.country_of_origin = country_of_origin
-		self.germination_period = germination_period
-		self.color = color
+		raise StopIteration
