@@ -3,29 +3,15 @@ from abc import ABC, abstractmethod
 
 class MixinRepr:
 
-	def __init__(self):
-		self.__repr__()
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		print(repr(self))
 
 	def __repr__(self):
 		return f'Добавлен товар {self.__dict__}'
 
 
-class OrderList(ABC):
-
-	def __init__(self):
-		pass
-
-	def __len__(self):
-		pass
-
-	def __repr__(self):
-		pass
-
-	def __str__(self):
-		pass
-
-
-class Category(OrderList, MixinRepr):
+class Category:
 	""" Класс категория. """
 	count_of_categories = 0
 	count_of_unique_products = 0
@@ -33,7 +19,6 @@ class Category(OrderList, MixinRepr):
 	list_all_products = []
 
 	def __init__(self, title: str, description: str, products: list):
-		super().__init__()
 		self.title = title
 		self.description = description
 		self.__products = products
@@ -71,29 +56,21 @@ class Category(OrderList, MixinRepr):
 		return len(self.products)
 
 
-class Order(OrderList, MixinRepr):
-
-	def __init__(self):
-		super().__init__()
-
-	def __len__(self):
-		pass
-
-	def __str__(self):
-		pass
-
-
 class AllProducts(ABC):
 	@abstractmethod
 	def __init__(self):
 		pass
 
+	@classmethod
+	@abstractmethod
+	def new_product(cls, *args, **kwargs):
+		pass
 
-class Product(AllProducts, MixinRepr):
+
+class Product(AllProducts):
 	""" Класс продукт. """
 
 	def __init__(self, title: str, description: str, price: float, quantity_in_stock: int):
-		super().__init__()
 		self.title = title
 		self.description = description
 		self.__price = price
@@ -169,18 +146,16 @@ class LawnGrass(Product, MixinRepr):
 		self.color = color
 
 
-class ProductIterator:
-	""" Класс для перебора товаров по категории. """
+# Эти экземпляры классов не выводятся в терминал.
+x = LawnGrass('Газон', 'Трава газонная', 100.50, 200, 'Россия', '3 месяца', 'Зеленый')
+z = Smartphone('Iphone 15', '512GB, Gray space', 210000.0, 8, 'Good', '15', '512GB', 'Gray space')
 
-	def __init__(self, stop):
-		self.stop = stop
 
-	def __iter__(self):
-		self.prodict_iterator = -1
-		return self
+class TestClass(MixinRepr):
+	def __init__(self, name, age):
+		self.name = name
+		self.age = age
+		super().__init__()
 
-	def __next__(self):
-		if self.prodict_iterator + 1 < self.stop:
-			self.prodict_iterator += 1
-			return self.prodict_iterator
-		raise StopIteration
+# Этот экземпляр выводится в терминал.
+obj = TestClass("Alice", 25)
