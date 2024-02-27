@@ -3,8 +3,9 @@ from abc import ABC, abstractmethod
 
 class MixinRepr:
 
-	def __init__(self):
-		self.__repr__()
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		print(repr(self))
 
 	def __repr__(self):
 		return f'Добавлен товар {self.__dict__}'
@@ -86,6 +87,11 @@ class Order(OrderList, MixinRepr):
 class AllProducts(ABC):
 	@abstractmethod
 	def __init__(self):
+		pass
+
+	@classmethod
+	@abstractmethod
+	def new_product(cls, *args, **kwargs):
 		pass
 
 
@@ -184,3 +190,6 @@ class ProductIterator:
 			self.prodict_iterator += 1
 			return self.prodict_iterator
 		raise StopIteration
+
+x = LawnGrass('Газон', 'Трава газонная', 100.50, 200, 'Россия', '3 месяца', 'Зеленый')
+print(x.__repr__())
