@@ -125,7 +125,7 @@ class Product(AllProducts):
 		raise TypeError
 
 
-class Smartphone(Product, MixinRepr):
+class Smartphone(MixinRepr, Product):
 	""" Подкласс смартфон. """
 
 	def __init__(self, title, description, price, quantity_in_stock, efficiency, model, hdd, color):
@@ -136,7 +136,7 @@ class Smartphone(Product, MixinRepr):
 		self.color = color
 
 
-class LawnGrass(Product, MixinRepr):
+class LawnGrass(MixinRepr, Product):
 	""" Подкласс трава газонная. """
 
 	def __init__(self, title, description, price, quantity_in_stock, country_of_origin, germination_period, color):
@@ -149,13 +149,3 @@ class LawnGrass(Product, MixinRepr):
 # Эти экземпляры классов не выводятся в терминал.
 x = LawnGrass('Газон', 'Трава газонная', 100.50, 200, 'Россия', '3 месяца', 'Зеленый')
 z = Smartphone('Iphone 15', '512GB, Gray space', 210000.0, 8, 'Good', '15', '512GB', 'Gray space')
-
-
-class TestClass(MixinRepr):
-	def __init__(self, name, age):
-		self.name = name
-		self.age = age
-		super().__init__()
-
-# Этот экземпляр выводится в терминал.
-obj = TestClass("Alice", 25)
