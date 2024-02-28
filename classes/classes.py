@@ -144,8 +144,3 @@ class LawnGrass(MixinRepr, Product):
 		self.country_of_origin = country_of_origin
 		self.germination_period = germination_period
 		self.color = color
-
-
-# Эти экземпляры классов не выводятся в терминал.
-x = LawnGrass('Газон', 'Трава газонная', 100.50, 200, 'Россия', '3 месяца', 'Зеленый')
-z = Smartphone('Iphone 15', '512GB, Gray space', 210000.0, 8, 'Good', '15', '512GB', 'Gray space')
