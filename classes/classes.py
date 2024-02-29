@@ -43,9 +43,18 @@ class Category:
 
 	def add_products(self, new_product):
 		""" Добавляет новый продукт в список продуктов. """
-		if isinstance(new_product, Product):
+		if new_product.quantity_in_stock == 0:
+			raise ValueError('Товар с нулевым количеством не может быть добавлен.')
+		elif isinstance(new_product, Product):
 			self.__products.append(new_product)
 		raise TypeError
+
+	def average_price(self):
+		try:
+			avr_price = [i.price for i in self.__products]
+			return sum(avr_price) / len(avr_price)
+		except ZeroDivisionError:
+			return 0
 
 	def __str__(self):
 		""" Вывод информации. """
